@@ -73,12 +73,21 @@ function Snowman({
     ));
   }
 
+  // ternary
+  // if nWrong === maxWrong ? render buttons : render lose message and word
+  // setGuessedLetters(g =>
+  //    const newGuessed = new Set(answer.split(""));
+  //    return newGuessed;)
+  // 'You lose!' setGuessedLetters(g => answer.split("").map(g =>))
+
   return (
       <div className="Snowman">
         <img src={(images)[nWrong]} alt={nWrong} />
         <p>Number of wrong guesses: {nWrong}</p>
         <p className="Snowman-word">{guessedWord()}</p>
-        <p>{generateButtons()}</p>
+        {nWrong !== maxWrong ? (
+          <p>{generateButtons()}</p>)
+          : `You lose! The correct word was: ${answer}`}
       </div>
   );
 }
