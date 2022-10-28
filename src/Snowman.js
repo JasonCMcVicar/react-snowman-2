@@ -73,8 +73,7 @@ function Snowman({
     ));
   }
 
-  // ternary
-  // if nWrong === maxWrong ? render buttons : render lose message and word
+  // TODO: update the guessedWord to display answer instead of hardcoding
   // setGuessedLetters(g =>
   //    const newGuessed = new Set(answer.split(""));
   //    return newGuessed;)
