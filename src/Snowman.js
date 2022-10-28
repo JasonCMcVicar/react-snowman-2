@@ -37,45 +37,60 @@ function Snowman({
   const [guessedLetters, setGuessedLetters] = useState(() => new Set());
   const [answer, setAnswer] = useState((randomWord(words)));
 
+  
   /** guessedWord: show current-state of word:
    if guessed letters are {a,p,e}, show "app_e" for "apple"
    */
   function guessedWord() {
     return answer
-        .split("")
-        .map(ltr => (guessedLetters.has(ltr) ? ltr : "_"));
+    .split("")
+    .map(ltr => (guessedLetters.has(ltr) ? ltr : "_"));
   }
-
+  
   /** handleGuess: handle a guessed letter:
    - add to guessed letters
    - if not in answer, increase number-wrong guesses
    */
   function handleGuess(evt) {
     let ltr = evt.target.value;
-
+    
     setGuessedLetters(g => {
       const newGuessed = new Set(g);
       newGuessed.add(ltr);
       return newGuessed;
     });
-
+    
     setNWrong(n => n + (answer.includes(ltr) ? 0 : 1));
   }
 
-  /** generateButtons: return array of letter buttons to render */
-  function generateButtons() {
-    return "abcdefghijklmnopqrstuvwxyz".split("").map(ltr => (
+  /** handleReset: handle resetting the state of the game:
+   - pick a new random word for answer TODO: refactor?
+   - reset guessedLetters
+   - reset nWrong to 0
+   */
+  function handleReset() {
+    console.log("handleReset called");
+    
+    setAnswer(randomWord(words));
+    setGuessedLetters(() => new Set());
+    setNWrong(0);
+  }
+    
+    /** generateButtons: return array of letter buttons to render */
+    function generateButtons() {
+      return "abcdefghijklmnopqrstuvwxyz".split("").map(ltr => (
         <button
-            key={ltr}
-            value={ltr}
-            onClick={handleGuess}
-            disabled={guessedLetters.has(ltr)}
+        key={ltr}
+        value={ltr}
+        onClick={handleGuess}
+        disabled={guessedLetters.has(ltr)}
         >
           {ltr}
         </button>
     ));
   }
-
+  
+  console.log("original answer=", answer, "guessedLetters=", guessedLetters);
   // TODO: update the guessedWord to display answer instead of hardcoding
   // setGuessedLetters(g =>
   //    const newGuessed = new Set(answer.split(""));
@@ -90,6 +105,12 @@ function Snowman({
         {nWrong !== maxWrong ? (
           <p>{generateButtons()}</p>)
           : `You lose! The correct word was: ${answer}`}
+        <button 
+          className="Reset"
+          onClick={handleReset}
+        >
+          New Game
+        </button>
       </div>
   );
 }
